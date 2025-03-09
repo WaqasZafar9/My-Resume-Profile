@@ -1,213 +1,258 @@
 import React, { useState, useRef } from "react";
+import { Analytics } from "@vercel/analytics/react";
+import { motion } from "framer-motion";
+import profilepic from "./assets/profilepic.jpg";
 import {
   FaGithub,
   FaLinkedin,
   FaEnvelope,
   FaMapMarkerAlt,
   FaFigma,
-  FaSlack,
   FaStripe,
-  FaTrello,
-  FaVideo,
   FaTwitter,
   FaInstagram,
-  FaPhone,
+  FaPhone, FaReact, FaNodeJs, FaPython, FaDatabase, FaAndroid, FaAws, FaGitAlt 
 } from "react-icons/fa";
+import { SiMongodb, SiFlutter, SiFirebase, SiLinux, SiCisco, SiOracle, SiMysql,} from "react-icons/si";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
-
-const projects = [
-  {
-    id: 1,
-    title: "Pettify App",
-    category: "Mobile App",
-    media: "https://via.placeholder.com/400x250", // Replace with actual image/video URL
-    type: "image", // Can be "image" or "video"
-    link: "/projects/pettify",
-  },
-  {
-    id: 2,
-    title: "Smart E-License System",
-    category: "Web Application",
-    media: "https://via.placeholder.com/400x250",
-    type: "image",
-    link: "/projects/license",
-  },
-  {
-    id: 3,
-    title: "Galaxy Cricket Website",
-    category: "Website",
-    media: "https://www.w3schools.com/html/mov_bbb.mp4", // Replace with actual video URL
-    type: "video",
-    link: "/projects/cricket",
-  },
-];
+import { projects } from "./data/projects";
 
 const experiences = [
   {
-    company: "Digital Innovations Agency",
-    role: "Senior Web Designer",
-    location: "San Francisco, CA",
-    duration: "Jan 2019 – Present",
+    company: "Social Swirl",
+    role: "Flutter Developer Intern",
+    location: "Lahore",
+    duration: "Aug 2024 – Oct 2024",
     responsibilities: [
-      "Led the redesign of high-traffic websites, resulting in a 30% increase in user engagement.",
-      "Managed a team of junior designers, providing mentorship and overseeing project timelines.",
-      "Collaborated with cross-functional teams to develop innovative design solutions for diverse clients.",
-      "Implemented responsive design principles to ensure optimal performance across all devices.",
+      "Designed and developed the company’s mobile application using Flutter.",
+      "Integrated front-end UI components and API connections to enhance app functionality."
     ],
   },
   {
-    company: "Creative Solutions Studio",
-    role: "Web Designer",
-    location: "Los Angeles, CA",
-    duration: "Jun 2013 – Dec 2018",
+    company: "Riphah International University",
+    role: "SIG Core Team Member",
+    location: "Lahore",
+    duration: "2024 – 2025",
     responsibilities: [
-      "Designed and developed over 50 custom websites for small to medium-sized businesses.",
-      "Optimized website performance, achieving a 25% improvement in loading times.",
-      "Worked closely with clients to understand their branding and design requirements.",
-      "Enhanced UX/UI for various digital products, improving user retention rates.",
+      "Managed and organized various student-led activities within the Special Interest Groups (SIG).",
+      "Designed bootcamp strategies to facilitate structured learning.",
+      "Conducted bootcamps on emerging technologies and software development."
+    ],
+  },
+  {
+    company: "AWS Learning Club Riphah",
+    role: "Co-Lead",
+    location: "Lahore",
+    duration: "2024 – 2025",
+    responsibilities: [
+      "Managed and organized AWS-related events and workshops.",
+      "Guided students in AWS certifications and cloud computing fundamentals.",
+      "Facilitated training sessions on AWS cloud services and applications."
+    ],
+  },
+  {
+    company: "SOFTEC FAST Lahore",
+    role: "Ambassador SOFTEC’25",
+    location: "Lahore",
+    duration: "Jan 2025 – Apr 2025",
+    responsibilities: [
+      "Led PR and marketing campaigns for the SOFTECH’25 event.",
+      "Engaged in community outreach to increase event participation."
+    ],
+  },
+  {
+    company: "Digicon Valley",
+    role: "Python Internship Boot Camp",
+    location: "Lahore",
+    duration: "2024 – Present",
+    responsibilities: [
+      "Completed a 7-day intensive Python internship focusing on practical applications.",
+      "Worked on developing programming and automation skills."
+    ],
+  },
+  {
+    company: "CodemoTeams",
+    role: "PR & Marketing Representative",
+    location: "Lahore",
+    duration: "2024 – Present",
+    responsibilities: [
+      "Managed PR and marketing strategies for community engagement.",
+      "Organized outreach activities to enhance brand visibility."
     ],
   },
 ];
 
 const educationData = [
   {
-    degree: "Master of Science in Web Design and Development",
-    university: "University of California",
-    location: "Berkeley, CA",
-    duration: "2010 – 2012",
-    description:
-      "Focused on advanced web technologies, user experience design, and front-end development.",
-  },
-  {
-    degree: "Bachelor of Fine Arts in Graphic Design",
-    university: "University of Washington",
-    location: "Seattle, WA",
-    duration: "2002 – 2006",
-    description:
-      "Emphasized visual communication, design principles, and digital media.",
+    degree: "Bachelor in Computer Science",
+    university: "Riphah International University",
+    location: "Lahore, Pakistan",
+    duration: "Oct 2021 – July 2025",
+    description: "Currently in the last semester. Coursework includes Flutter development, MERN stack, and AI concepts."
   },
 ];
+
 
 const certifications = [
   {
-    title: "Certified Web Developer (CWD)",
-    organization: "International Web Association",
-    year: "2021",
-    link: "https://example.com/cwd",
+    title: "Internship in Flutter Development",
+    organization: "Social Swirl",
+    year: "2024",
+    link: "https://www.linkedin.com/in/m-waqas-zafar/details/certifications/",
   },
   {
-    title: "User Experience (UX) Design Certification",
-    organization: "Nielsen Norman Group",
-    year: "2018",
-    link: "https://example.com/ux-cert",
+    title: "Site Reliability Engineering: Measuring and Managing Reliability",
+    organization: "Google (Coursera)",
+    year: "2024",
+    link: "https://coursera.org/verify/YL8SDS856JQN",
   },
   {
-    title: "Advanced HTML5 and CSS3 Specialist",
-    organization: "W3Schools",
-    year: "2016",
-    link: "https://example.com/html5-css3",
+    title: "Building a Dynamic Web App Using PHP & MySQL",
+    organization: "Coursera",
+    year: "2024",
+    link: "https://coursera.org/verify/R73CQWNR6WZ2",
   },
   {
-    title: "Google Analytics Individual Qualification (GAIQ)",
+    title: "AWS Academy Cloud Architecting",
+    organization: "Amazon Web Services Training and Certification",
+    year: "2024",
+    link: "https://www.credly.com/badges/1129539a-204f-423a-97df-9493644549a6/public_url",
+  },
+  {
+    title: "Ordered Data Structures",
+    organization: "Coursera",
+    year: "2024",
+    link: "https://coursera.org/verify/H9DEPPFDZT3B",
+  },
+  {
+    title: "Oracle Database Foundations",
+    organization: "Coursera",
+    year: "2024",
+    link: "https://coursera.org/verify/KQG4G7F954N3",
+  },
+  {
+    title: "Python 7 Days BootCamp",
+    organization: "Digicon Valley",
+    year: "2024",
+    link: "https://www.linkedin.com/in/m-waqas-zafar/details/certifications/",
+  },
+  {
+    title: "Generative AI",
     organization: "Google",
-    year: "2015",
-    link: "https://example.com/ga-iq",
+    year: "2024",
+    link: "https://shorturl.at/ZqryQ",
+  },
+  {
+    title: "Introduction to Artificial Intelligence (AI)",
+    organization: "IBM, Coursera",
+    year: "2024",
+    link: "https://coursera.org/verify/BCZJ499ME9BG",
+  },
+  {
+    title: "Networking Essentials",
+    organization: "Cisco Networking Academy",
+    year: "2024",
+    link: "https://shorturl.at/eyfKi",
+  },
+  {
+    title: "NDG Linux Essentials",
+    organization: "Cisco Networking Academy",
+    year: "2024",
+    link: "https://shorturl.at/IC4f9",
   },
 ];
+
+
 
 const stackItems = [
   {
-    name: "Design",
-    category: "General Design Tool",
+    name: "React.js",
+    category: "Frontend Development",
+    icon: <FaReact />,
+    link: "https://reactjs.org/",
+  },
+  {
+    name: "Node.js",
+    category: "Backend Development",
+    icon: <FaNodeJs />,
+    link: "https://nodejs.org/",
+  },
+  {
+    name: "Flutter",
+    category: "Mobile App Development",
+    icon: <SiFlutter />,
+    link: "https://flutter.dev/",
+  },
+  {
+    name: "Python",
+    icon: <FaPython />,
+    link: "https://www.python.org/",
+  },
+  {
+    name: "Firebase",
+    category: "Backend as a Service",
+    icon: <SiFirebase />,
+    link: "https://firebase.google.com/",
+  },
+  {
+    name: "MongoDB",
+    category: "Cloud Database",
+    icon: <SiMongodb />,
+    link: "https://www.mongodb.com/",
+  },
+  {
+    name: "MySQL",
+    category: "Database Management",
+    icon: <SiMysql />,
+    link: "https://www.mysql.com/",
+  },
+  {
+    name: "Oracle Database",
+    category: "Relational Database",
+    icon: <SiOracle />,
+    link: "https://www.oracle.com/database/",
+  },
+  {
+    name: "AWS Cloud",
+    category: "Cloud Computing",
+    icon: <FaAws />,
+    link: "https://aws.amazon.com/",
+  },
+  {
+    name: "Figma",
+    category: "web & app design",
     icon: <FaFigma />,
-    link: "https://figma.com",
+    link: "https://www.figma.com/",
   },
   {
-    name: "Management",
-    category: "Project Management",
-    icon: <FaTrello />,
-    link: "https://trello.com",
+    name: "Linux",
+    icon: <SiLinux />,
+    link: "https://www.linux.org/",
   },
   {
-    name: "Payments",
-    category: "Payment Platform",
-    icon: <FaStripe />,
-    link: "https://stripe.com",
+    name: "Cisco Networking",
+    category: "Networking",
+    icon: <SiCisco />,
+    link: "https://www.cisco.com/",
   },
   {
-    name: "Meetings",
-    category: "Collaboration",
-    icon: <FaVideo />,
-    link: "https://zoom.us",
+    name: "Github",
+    category: "Project managment",
+    icon: <FaGithub />,
+    link: "https://github.com/WaqasZafar9/",
   },
   {
-    name: "Calls",
-    category: "Communication",
-    icon: <FaSlack />,
-    link: "https://slack.com",
+    name: "Git",
+    category: "Version Control",
+    icon: <FaGitAlt />,
+    link: "https://git-scm.com/",
   },
 ];
 
-const awards = [
-  {
-    title: "Site of the day",
-    organization: "Awwwards",
-    year: "2023",
-    link: "https://www.awwwards.com/",
-  },
-  {
-    title: "Site of the month",
-    organization: "Awwwards",
-    year: "2020",
-    link: "https://www.awwwards.com/",
-  },
-  {
-    title: "Website of the day",
-    organization: "CSS Design Awards",
-    year: "2018",
-    link: "https://www.cssdesignawards.com/",
-  },
-];
 
 const posts = [
-  {
-    title: "The Future of Web Design: Trends to Watch in 2024",
-    source: "Web Design Journal, May 15, 2024",
-    description:
-      "An in-depth analysis of upcoming trends in web design, focusing on emerging technologies and design philosophies that are set to shape the future of the industry.",
-    image: "https://via.placeholder.com/600x350", // Replace with actual image
-    link: "https://example.com/web-design-trends",
-    type: "article",
-  },
-  {
-    title: "Responsive Design Best Practices",
-    source: "Modern Web Magazine, May 11, 2024",
-    description:
-      "An article outlining the best practices for creating responsive websites that perform well on all devices, ensuring a seamless user experience.",
-    image: "https://via.placeholder.com/600x350",
-    link: "https://example.com/responsive-design",
-    type: "article",
-  },
-  {
-    title: "Volunteering at Open Source Foundation",
-    source: "Community Work, April 20, 2024",
-    description:
-      "Contributed to open-source projects, helping maintain and develop key features for accessibility and better user experience.",
-    image: "https://via.placeholder.com/600x350",
-    link: "https://example.com/open-source",
-    type: "community",
-  },
-  {
-    title: "Organizing Web Development Bootcamp",
-    source: "Tech Community, March 18, 2024",
-    description:
-      "Led a bootcamp for beginner web developers, introducing them to HTML, CSS, and JavaScript with hands-on projects.",
-    image: "https://via.placeholder.com/600x350",
-    link: "https://example.com/bootcamp",
-    type: "community",
-  },
+
 ];
 
 const Home = () => {
@@ -249,14 +294,14 @@ const Home = () => {
 
     emailjs
       .send(
-        "your_service_id", // Replace with EmailJS Service ID
-        "your_template_id", // Replace with EmailJS Template ID
+        "service_66z3p0x", 
+        "template_3fxk9ib", 
         {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
         },
-        "your_public_key" // Replace with EmailJS Public Key
+        "GAc_xsQJLuiZY_ZpD" 
       )
       .then(
         () => {
@@ -322,10 +367,12 @@ const Home = () => {
           </button>
         ))}
       </nav>
-
       {/* Profile Section */}
-      <div
+      <motion.div
         ref={introRef}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
         style={{
           display: "flex",
           alignItems: "center",
@@ -337,9 +384,12 @@ const Home = () => {
         {/* Left Section (Profile Info) */}
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           {/* Profile Image */}
-          <img
-            src="/assets/profile.png"
+          <motion.img
+            src={profilepic}
             alt="Profile"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
             style={{
               width: "100px",
               height: "100px",
@@ -387,38 +437,35 @@ const Home = () => {
 
         {/* Right Section (Links & CV) */}
         <div style={{ textAlign: "right" }}>
-          <a
-            href="https://bit.ly/waqaszafar-linkedin"
+          <motion.a
+            href="/portfolio"
+            whileHover={{ scale: 1.05, color: "#4caf50" }}
+            transition={{ duration: 0.3 }}
             style={{
               display: "block",
               color: "white",
               textDecoration: "none",
               marginBottom: "8px",
-              transition: "color 0.3s",
             }}
-            onMouseEnter={(e) => (e.target.style.color = "#4caf50")}
-            onMouseLeave={(e) => (e.target.style.color = "white")}
           >
-            🔗 Get Template
-          </a>
+            🔗 View Full Portfolio
+          </motion.a>
 
-          <a
-            href="/assets/M-Waqas-Resume.pdf"
+          <motion.a
+            href="/assets/Resume.pdf"
             download
+            whileHover={{ scale: 1.05, color: "#4caf50" }}
+            transition={{ duration: 0.3 }}
             style={{
               display: "block",
               color: "white",
               textDecoration: "none",
-              transition: "color 0.3s",
             }}
-            onMouseEnter={(e) => (e.target.style.color = "#4caf50")}
-            onMouseLeave={(e) => (e.target.style.color = "white")}
           >
             📄 Download CV
-          </a>
+          </motion.a>
         </div>
-      </div>
-
+      </motion.div>
       {/* Contact Info */}
       <div
         style={{
@@ -443,7 +490,7 @@ const Home = () => {
         </a>
 
         <a
-          href="https://twitter.com"
+          href="https://github.com/WaqasZafar9"
           style={{
             color: "#bbb",
             textDecoration: "none",
@@ -469,22 +516,43 @@ const Home = () => {
         >
           <FaLinkedin /> LinkedIn
         </a>
+        <a
+          href="https://github.com/WaqasZafar9"
+          style={{
+            color: "#bbb",
+            textDecoration: "none",
+            fontSize: "14px",
+            display: "flex",
+            alignItems: "center",
+            gap: "5px",
+          }}
+        >
+          <FaGithub /> View Portfolio
+        </a>
       </div>
       {/* About Me Section */}
-      <div
+      <motion.div
         ref={aboutRef}
+        initial={{ opacity: 0, y: 30 }} // Start slightly below
+        whileInView={{ opacity: 1, y: 0 }} // Animate into place
+        transition={{ duration: 0.6, ease: "easeOut" }} // Smooth transition
+        viewport={{ once: true }} // Runs animation once when in view
         style={{
           marginTop: "100px",
           paddingTop: "20px",
-          marginBottom:"50px",
+          marginBottom: "50px",
         }}
       >
-        <h2
+        <motion.h2
           style={{ fontWeight: "600", fontSize: "22px", marginBottom: "15px" }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
           About me
-        </h2>
-        <p
+        </motion.h2>
+
+        <motion.p
           style={{
             fontSize: "16px",
             color: "#ddd",
@@ -492,94 +560,178 @@ const Home = () => {
             marginBottom: "20px",
             marginTop: "20px",
           }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Hello, I'm <strong>M Waqas Zafar</strong>, a passionate Web & App
-          Developer with expertise in crafting seamless, user-friendly digital
-          experiences.
-        </p>
-        <p style={{ fontSize: "16px", color: "#ddd", lineHeight: "1.6" }}>
-          My journey in development started with a deep curiosity about how
-          applications work and a strong desire to build something meaningful on
-          the digital canvas. Over the years, I’ve honed my skills in **UI/UX
-          design, front-end development, and user experience optimization.**
-        </p>
-      </div>
+          Hello, I'm <strong>M Waqas Zafar</strong>,
+        </motion.p>
 
+        <motion.p
+          style={{ fontSize: "16px", color: "#ddd", lineHeight: "1.6" }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          Currently pursuing a BS in Computer Science at Riphah International
+          University, Lahore. With a foundation in Flutter, Python, Web
+          development, and designing, I have developed multiple projects. I am
+          passionate about leveraging modern technologies to solve real-world
+          problems, as seen in my internships and project management roles. In
+          addition to technical skills, I have a background in event management
+          and team collaboration through my roles in bootcamps and PR. I am
+          committed to continuous learning and have earned certifications in AI,
+          web development, and network security.
+        </motion.p>
+      </motion.div>
       {/* Skills Section */}
-      <div
+      <motion.div
         style={{
           marginTop: "40px",
           paddingTop: "20px",
           borderTop: "1px solid #333",
         }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true }}
       >
-        <h2
+        <motion.h2
           style={{ fontWeight: "600", fontSize: "22px", marginBottom: "15px" }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
           Skills
-        </h2>
+        </motion.h2>
 
-        {/* Skill Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-            gap: "15px",
-          }}
-        >
-          {[
-            "Flutter (Dart)",
-            "Python (AI/ML)",
-            "Java",
-            "C++",
-            "SQL",
-            "HTML & CSS",
-            "JavaScript",
-            "React.js",
-            "Database Management",
-            "UI/UX Design",
-          ].map((skill, index) => (
-            <div
-              key={index}
+        {/* Function to Render Each Skill Category */}
+        {[
+          {
+            title: "Programming Languages & Frameworks",
+            skills: [
+              "Flutter (App Development)",
+              "C++",
+              "React.js",
+              "node.js",
+              "Python ",
+              "HTML5 & CSS",
+              "Web & App designing",
+              "Editing",
+            ],
+          },
+          {
+            title: "Databases",
+            skills: ["Oracle / MySQL", "Firebase", "MongoDB"],
+          },
+          {
+            title: "Tools & Platforms",
+            skills: [
+              "Git & GitHub",
+              "VS Code / IntelliJ / Android Studio",
+              "Google Colab / Jupyter",
+              "Figma / Canva",
+            ],
+          },
+          {
+            title: "Concepts",
+            skills: [
+              "Data Structures & Algorithms",
+              "Project Documentation & Management",
+              "Networking & Cloud Computing",
+            ],
+          },
+          {
+            title: "Soft Skills",
+            skills: [
+              "Communication & Leadership",
+              "Event & Project Management",
+              "Critical Thinking",
+            ],
+          },
+        ].map((category, index) => (
+          <motion.div key={index} style={{ marginBottom: "25px" }}>
+            {/* Category Title */}
+            <motion.h3
               style={{
-                background: "#1c1c1c",
-                padding: "12px",
-                borderRadius: "8px",
-                textAlign: "center",
-                fontSize: "14px",
-                fontWeight: "500",
-                transition: "0.3s",
-                cursor: "pointer",
+                fontSize: "18px",
+                fontWeight: "600",
+                marginBottom: "10px",
+                color: "#fff",
               }}
-              onMouseEnter={(e) => (e.target.style.background = "#333")}
-              onMouseLeave={(e) => (e.target.style.background = "#1c1c1c")}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
             >
-              {skill}
-            </div>
-          ))}
-        </div>
-      </div>
+              {category.title}
+            </motion.h3>
 
+            {/* Skill Grid */}
+            <motion.div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                gap: "15px",
+              }}
+            >
+              {category.skills.map((skill, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: idx * 0.05 }}
+                  style={{
+                    background: "#1c1c1c",
+                    padding: "12px",
+                    borderRadius: "8px",
+                    textAlign: "center",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    transition: "0.3s",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.background = "#333")}
+                  onMouseLeave={(e) => (e.target.style.background = "#1c1c1c")}
+                >
+                  {skill}
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        ))}
+      </motion.div>
       {/* Projects Section */}
-      <div
+      <motion.div
         ref={workRef}
         style={{
           marginTop: "100px",
           paddingTop: "20px",
           borderTop: "1px solid #333",
         }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true }}
       >
-        <div
+        {/* Projects Header with Animation */}
+        <motion.div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             marginTop: "20px",
           }}
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
           <h2 style={{ fontWeight: "600", fontSize: "22px" }}>My Projects</h2>
-          <button
+
+          {/* View All Button */}
+          <motion.button
             onClick={() => navigate("/projects")}
+            whileHover={{ scale: 1.05, color: "#fff" }}
+            whileTap={{ scale: 0.95 }}
             style={{
               background: "none",
               color: "#bbb",
@@ -591,73 +743,77 @@ const Home = () => {
               gap: "5px",
               transition: "0.3s",
             }}
-            onMouseEnter={(e) => (e.target.style.color = "#fff")}
-            onMouseLeave={(e) => (e.target.style.color = "#bbb")}
           >
             View all →
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
-        {/* Project Cards */}
-        <div
+        {/* Project Cards with Animation */}
+        <motion.div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
             gap: "15px",
             marginTop: "20px",
           }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
         >
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              style={{
-                background: "#1c1c1c",
-                borderRadius: "8px",
-                overflow: "hidden",
-                cursor: "pointer",
-                transition: "0.3s",
-              }}
-              onClick={() => navigate(project.link)}
-              onMouseEnter={(e) => (e.target.style.background = "#333")}
-              onMouseLeave={(e) => (e.target.style.background = "#1c1c1c")}
-            >
-              {/* Media (Image/Video) */}
-              {project.type === "image" ? (
-                <img
-                  src={project.media}
-                  alt={project.title}
-                  style={{ width: "100%", height: "180px", objectFit: "cover" }}
-                />
-              ) : (
-                <video
-                  src={project.media}
-                  autoPlay
-                  muted
-                  loop
-                  style={{ width: "100%", height: "180px", objectFit: "cover" }}
-                />
-              )}
+          {projects.slice(0, 3).map(
+            (
+              project,
+              index // 👈 Show only first 3 projects
+            ) => (
+              <motion.div
+                key={project.id}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                style={{
+                  background: "#1c1c1c",
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  transition: "0.3s",
+                }}
+                onClick={() => navigate(`/projects/${project.id}`)}
+              >
+                {/* Media (Image) */}
+                {project.media && (
+                  <img
+                    src={project.media}
+                    alt={project.title}
+                    style={{
+                      width: "100%",
+                      height: "180px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
 
-              {/* Project Info */}
-              <div style={{ padding: "12px" }}>
-                <h3
-                  style={{
-                    margin: "5px 0",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                  }}
-                >
-                  {project.title}
-                </h3>
-                <p style={{ fontSize: "14px", color: "#bbb" }}>
-                  {project.category}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
+                {/* Project Info */}
+                <div style={{ padding: "12px" }}>
+                  <h3
+                    style={{
+                      margin: "5px 0",
+                      fontSize: "16px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {project.title}
+                  </h3>
+                  <p style={{ fontSize: "14px", color: "#bbb" }}>
+                    {project.category}
+                  </p>
+                </div>
+              </motion.div>
+            )
+          )}
+        </motion.div>
+      </motion.div>
       {/* Experience */}
       {/* Experience Section Title */}
       <h2
@@ -672,7 +828,6 @@ const Home = () => {
       >
         Experience
       </h2>
-
       {/* Experience List */}
       {experiences.map((exp, index) => (
         <div
@@ -731,7 +886,6 @@ const Home = () => {
           </ul>
         </div>
       ))}
-
       {/* Education Section Title */}
       <h2
         ref={educationRef}
@@ -744,7 +898,6 @@ const Home = () => {
       >
         Education
       </h2>
-
       {/* Education Timeline */}
       <div
         style={{ position: "relative", paddingLeft: "20px", marginTop: "30px" }}
@@ -828,7 +981,6 @@ const Home = () => {
           </motion.div>
         ))}
       </div>
-
       {/* Certifications Section Title */}
       <h2
         style={{
@@ -840,7 +992,6 @@ const Home = () => {
       >
         Certifications
       </h2>
-
       {/* Certifications List */}
       <div>
         {certifications.map((cert, index) => (
@@ -893,12 +1044,17 @@ const Home = () => {
           </motion.div>
         ))}
       </div>
-
       {/* Stack Section Title */}
-      <h2 style={{ fontWeight: "600", fontSize: "22px", marginBottom: "30px", marginTop:"70px", }}>
+      <h2
+        style={{
+          fontWeight: "600",
+          fontSize: "22px",
+          marginBottom: "30px",
+          marginTop: "70px",
+        }}
+      >
         Stack
       </h2>
-
       {/* Stack Grid */}
       <div
         ref={stackRef}
@@ -950,69 +1106,6 @@ const Home = () => {
         ))}
       </div>
 
-      {/* Awards Section Title */}
-      <h2
-        style={{
-          fontWeight: "600",
-          fontSize: "22px",
-          marginBottom: "15px",
-          marginTop: "70px",
-        }}
-      >
-        Awards
-      </h2>
-
-      {/* Awards List */}
-      {awards.map((award, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: index * 0.2 }}
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "15px 0",
-            borderBottom:
-              index !== awards.length - 1 ? "1px solid #333" : "none",
-          }}
-        >
-          {/* Award Details */}
-          <div>
-            <h3
-              style={{
-                fontSize: "16px",
-                fontWeight: "600",
-                marginBottom: "5px",
-              }}
-            >
-              {award.title}
-            </h3>
-            <p style={{ fontSize: "14px", color: "#bbb" }}>
-              {award.organization}, {award.year}
-            </p>
-          </div>
-
-          {/* Visit Link */}
-          <a
-            href={award.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: "#bbb",
-              textDecoration: "none",
-              fontSize: "14px",
-              transition: "0.3s",
-            }}
-            onMouseEnter={(e) => (e.target.style.color = "#fff")}
-            onMouseLeave={(e) => (e.target.style.color = "#bbb")}
-          >
-            Visit →
-          </a>
-        </motion.div>
-      ))}
-
       {/*Posts Header Section */}
       <div
         ref={blogRef}
@@ -1041,7 +1134,6 @@ const Home = () => {
           View all posts →
         </a>
       </div>
-
       {/* Posts Grid */}
       <div>
         {posts.map((post, index) => (
@@ -1115,12 +1207,17 @@ const Home = () => {
           </motion.div>
         ))}
       </div>
-
       {/* Contact Section Title */}
-      <h2 style={{ fontWeight: "600", fontSize: "22px", marginBottom: "15px" , marginTop:"100px",}}>
+      <h2
+        style={{
+          fontWeight: "600",
+          fontSize: "22px",
+          marginBottom: "15px",
+          marginTop: "100px",
+        }}
+      >
         Let's Talk
       </h2>
-
       <div
         ref={contactRef}
         style={{
@@ -1138,7 +1235,6 @@ const Home = () => {
               hour: "2-digit",
               minute: "2-digit",
             })}{" "}
-            PM
           </p>
 
           <p
@@ -1151,7 +1247,7 @@ const Home = () => {
               gap: "10px",
             }}
           >
-            <FaEnvelope /> <span>johnsmith@gmail.com</span>
+            <FaEnvelope /> <span>mwaqaszafar76@gmail.com</span>
           </p>
 
           <p
@@ -1164,7 +1260,7 @@ const Home = () => {
               gap: "10px",
             }}
           >
-            <FaPhone /> <span>(123) 456 7890</span>
+            <FaPhone /> <span>(+92) 370 4072105</span>
           </p>
 
           {/* Social Media Links */}
@@ -1291,7 +1387,6 @@ const Home = () => {
           </form>
         </div>
       </div>
-
       <footer
         style={{
           display: "flex",
@@ -1314,7 +1409,6 @@ const Home = () => {
         {/* Right Section */}
         <p>© Copyright {new Date().getFullYear()}. All rights reserved.</p>
       </footer>
-
       {/* CSS Animations */}
       <style>
         {`

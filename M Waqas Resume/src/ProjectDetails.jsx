@@ -1,42 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
-
-const projectData = {
-  pettify: {
-    title: "Pettify App",
-    description:
-      "A pet care mobile app built with Flutter and Firebase for seamless pet adoption and services.",
-    stack: ["Flutter", "Firebase", "Dart"],
-    images: [
-      "https://via.placeholder.com/600x350",
-      "https://via.placeholder.com/500x300",
-      "https://via.placeholder.com/400x250",
-    ],
-  },
-  license: {
-    title: "Smart E-License System",
-    description:
-      "A web application that streamlines the process of issuing digital driving licenses using AI.",
-    stack: ["Java", "Spring Boot", "MySQL"],
-    images: [
-      "https://via.placeholder.com/600x350",
-      "https://via.placeholder.com/500x300",
-      "https://via.placeholder.com/400x250",
-    ],
-  },
-  cricket: {
-    title: "Galaxy Cricket Website",
-    description:
-      "A dynamic cricket news website offering real-time scores, team updates, and match analysis.",
-    stack: ["HTML", "CSS", "JavaScript", "PHP"],
-    images: [
-      "https://via.placeholder.com/600x350",
-      "https://via.placeholder.com/500x300",
-      "https://via.placeholder.com/400x250",
-    ],
-  },
-};
+import { motion } from "framer-motion";
+import { projectData } from "./data/projects"; // Import centralized data
 
 const ProjectDetails = () => {
   const { projectId } = useParams();
@@ -55,7 +20,10 @@ const ProjectDetails = () => {
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
       style={{
         maxWidth: "900px",
         margin: "auto",
@@ -64,8 +32,10 @@ const ProjectDetails = () => {
       }}
     >
       {/* Back Button */}
-      <button
+      <motion.button
         onClick={() => navigate("/")}
+        whileHover={{ scale: 1.05, color: "#fff" }}
+        whileTap={{ scale: 0.95 }}
         style={{
           background: "none",
           color: "#bbb",
@@ -78,30 +48,35 @@ const ProjectDetails = () => {
           marginBottom: "20px",
           transition: "0.3s",
         }}
-        onMouseEnter={(e) => (e.target.style.color = "#fff")}
-        onMouseLeave={(e) => (e.target.style.color = "#bbb")}
       >
         ← Home
-      </button>
+      </motion.button>
 
       {/* Project Title */}
-      <h1 style={{ fontSize: "26px", fontWeight: "600", marginBottom: "10px" }}>
+      <motion.h1
+        style={{ fontSize: "26px", fontWeight: "600", marginBottom: "10px" }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         {project.title}
-      </h1>
+      </motion.h1>
 
       {/* Project Description */}
-      <p
+      <motion.p
         style={{
           fontSize: "16px",
           color: "#ddd",
           lineHeight: "1.6",
-          animation: "fadeIn 1s ease-in-out",
         }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
       >
         {project.description}
-      </p>
+      </motion.p>
 
-      {/* Stack Section */}
+      {/* Tech Stack */}
       <h3
         style={{
           fontSize: "18px",
@@ -114,8 +89,9 @@ const ProjectDetails = () => {
       </h3>
       <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
         {project.stack.map((tech, index) => (
-          <span
+          <motion.span
             key={index}
+            whileHover={{ scale: 1.1 }}
             style={{
               background: "#222",
               padding: "8px 15px",
@@ -124,15 +100,13 @@ const ProjectDetails = () => {
               fontWeight: "500",
               transition: "0.3s",
             }}
-            onMouseEnter={(e) => (e.target.style.background = "#333")}
-            onMouseLeave={(e) => (e.target.style.background = "#222")}
           >
             {tech}
-          </span>
+          </motion.span>
         ))}
       </div>
 
-      {/* Project Images */}
+      {/* Screenshots */}
       <h3
         style={{
           fontSize: "18px",
@@ -143,37 +117,31 @@ const ProjectDetails = () => {
       >
         Screenshots
       </h3>
-      <div
+      <motion.div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           gap: "15px",
         }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
       >
-        {project.images.map((img, index) => (
-          <img
-            key={index}
-            src={img}
-            alt={`Project ${index}`}
-            style={{
-              width: "100%",
-              borderRadius: "8px",
-              animation: "fadeIn 1s ease-in-out",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* CSS Animation */}
-      <style>
-        {`
-          @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-10px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-        `}
-      </style>
-    </div>
+        {project.images &&
+          project.images.map((img, index) => (
+            <motion.img
+              key={index}
+              src={img}
+              alt={`Project ${index}`}
+              whileHover={{ scale: 1.05 }}
+              style={{
+                width: "100%",
+                borderRadius: "8px",
+              }}
+            />
+          ))}
+      </motion.div>
+    </motion.div>
   );
 };
 
